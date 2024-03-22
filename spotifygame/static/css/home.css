@@ -44,7 +44,7 @@
 #spotify-login {
   background-color: var(--light-green);
   border: none;
-  border-radius: 16px;
+  border-radius: 1em;
   width: 10em;
   height: 2em;
 }
