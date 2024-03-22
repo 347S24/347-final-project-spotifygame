@@ -75,6 +75,10 @@ DJANGO_APPS = [
     # "django.contrib.humanize", # Handy template tags
     "django.contrib.admin",
     "django.forms",
+    "rest_framework",
+    "spotifyauth.apps.SpotifyauthConfig"
+    
+
 ]
 THIRD_PARTY_APPS = [
     "crispy_forms",
