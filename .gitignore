@@ -328,3 +328,4 @@ spotifygame/media/
 *.sqlite
 *.sqlite3
 
+.env
