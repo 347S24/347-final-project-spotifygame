@@ -47,7 +47,7 @@ def spotify_callback(request, format=None):
     update_or_create_user_tokens(
         request.session.session_key, access_token, token_type, expires_in, refresh_token)
 
-    return redirect('home') #change this to redirect to the game page
+    return redirect('spotifyauth:random_track') #change this to redirect to the game page
 
 class IsAuthenticated(APIView):
     def get(self, request, format=None):
@@ -105,7 +105,7 @@ class UserSavedTracks(APIView):
             return Response({}, status=status.HTTP_204_NO_CONTENT)
 
         random_song = random.choice(songs)
-        return Response(random_song, status=status.HTTP_200_OK)
+        return render(request, 'pages/game.html', {'random_song': random_song})
 
         # I have a list of user's liked songs now. I want to randomly choose one
         #return Response(songs, status=status.HTTP_200_OK)
