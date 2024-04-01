@@ -6,7 +6,7 @@ app_name = 'spotifyauth'
 
 urlpatterns = [
     path('', TemplateView.as_view(template_name="pages/home.html"),
-        name='',
+        name='home'
     ),
     path('get-auth-url', AuthURL.as_view()),
     path('redirect', spotify_callback),

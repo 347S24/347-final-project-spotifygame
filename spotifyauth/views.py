@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from .util import *
 import random
+from django.urls import reverse
 
 
 class AuthURL(APIView):
@@ -46,7 +47,7 @@ def spotify_callback(request, format=None):
     update_or_create_user_tokens(
         request.session.session_key, access_token, token_type, expires_in, refresh_token)
 
-    return redirect('spotifyauth:') #temporary
+    return redirect('home') #change this to redirect to the game page
 
 class IsAuthenticated(APIView):
     def get(self, request, format=None):
