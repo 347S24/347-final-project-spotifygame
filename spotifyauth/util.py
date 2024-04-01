@@ -63,3 +63,26 @@ def refresh_spotify_token(session_id):
 
     update_or_create_user_tokens(
         session_id, access_token, token_type, expires_in, refresh_token)
+
+
+# method to handle any spotify api call given session id and api-specifi endpoint
+# pass endpoint to specific api endpoint
+def execute_spotify_api_request(session_id, endpoint, post_=False, put_=False):
+
+    #Get token from SpotifyToken model based on the specified session_id
+    tokens = get_user_tokens(session_id)
+    header = {'Content-Type': 'application/json', 'Authorization': "Bearer " + tokens.access_token}
+    
+    if post_:
+        post(BASE_URL + endpoint, headers=header)
+
+    if put_:
+        put(BASE_URL + endpoint, headers=header)
+
+    response = get(BASE_URL + endpoint, {}, headers=header)
+
+    try:
+        return response.json()
+        
+    except:
+        return {'Error': 'Issue with request'}
