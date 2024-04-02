@@ -3,6 +3,7 @@ from django.utils import timezone
 from datetime import timedelta
 from .credentials import CLIENT_ID, CLIENT_SECRET
 from requests import post, put, get
+from django.shortcuts import redirect
 
 
 BASE_URL = "https://api.spotify.com/v1/me/"
@@ -38,9 +39,13 @@ def is_spotify_authenticated(session_id):
     tokens = get_user_tokens(session_id)
     if tokens is not None:
         expiry = tokens.expires_in
+
+        print(expiry)
+        print(timezone.now())
         if expiry <= timezone.now():
             refresh_spotify_token(session_id)
-
+            
+        
         return True
 
     return False
