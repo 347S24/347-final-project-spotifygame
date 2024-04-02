@@ -8,6 +8,12 @@
 
 {% block content %}
 <h1>Game WIP</h1>
+<div style="display: flex; justify-content:  center;">
+<figure>
+    <figcaption>Play Song</figcaption>
+    <audio controls src="{{ random_song.preview_url }}"></audio>
+</figure>
+</div>
 <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
     <!-- If we want to show the album cover -->
     <img src="{{ random_song.image_url }}" alt="{{ random_song.title }} Album Cover" style="max-width: 50%; height: 55vh;">

@@ -97,6 +97,7 @@ class UserSavedTracks(APIView):
                 'artist': artist_string,
                 'duration': duration,
                 'image_url': album_cover,
+                'preview_url': track.get('preview_url'),
                 'id': song_id,
                 'uri': uri
             }
