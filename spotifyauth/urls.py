@@ -12,4 +12,5 @@ urlpatterns = [
     path('redirect', spotify_callback),
     path('is-authenticated', IsAuthenticated.as_view()),
     path('game/', UserSavedTracks.as_view(), name='random_track')
+    
 ]

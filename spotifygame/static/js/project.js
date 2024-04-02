@@ -1,11 +1,16 @@
 // Define the authenticateSpotify function
 function authenticateSpotify() {
+  // Check if Spotify is already authenticated
   fetch("/spotifyauth/is-authenticated")
     .then(function(response) {
       return response.json();
     })
     .then(function(data) {
-      if (!data.status) {
+      // If Spotify is already authenticated, redirect to the game page
+      if (data.status) {
+        window.location.href = "/spotifyauth/game";
+      } else {
+        // If not authenticated, get authentication URL and redirect to it
         fetch("/spotifyauth/get-auth-url")
           .then(function(response) {
             return response.json();
