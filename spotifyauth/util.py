@@ -4,18 +4,15 @@ from datetime import timedelta
 from .credentials import CLIENT_ID, CLIENT_SECRET
 from requests import post, put, get
 from django.shortcuts import redirect
+from django.urls import reverse
+from django.http import HttpResponseRedirect
+
 
 
 BASE_URL = "https://api.spotify.com/v1/me/"
 
 
-def get_user_tokens(session_id):
-    user_tokens = SpotifyToken.objects.filter(user=session_id)
-    print(user_tokens)
-    if user_tokens.exists():
-        return user_tokens[0]
-    else:
-        return None
+
 
 
 def update_or_create_user_tokens(session_id, access_token, token_type, expires_in, refresh_token):
@@ -34,6 +31,13 @@ def update_or_create_user_tokens(session_id, access_token, token_type, expires_i
                               refresh_token=refresh_token, token_type=token_type, expires_in=expires_in)
         tokens.save()
 
+def get_user_tokens(session_id):
+    user_tokens = SpotifyToken.objects.filter(user=session_id)
+
+    if user_tokens.exists():
+        return user_tokens[0]
+    else:
+        return None
 
 def is_spotify_authenticated(session_id):
     tokens = get_user_tokens(session_id)
@@ -42,7 +46,6 @@ def is_spotify_authenticated(session_id):
         if expiry <= timezone.now():
             refresh_spotify_token(session_id)
             
-        
         return True
 
     return False
@@ -71,8 +74,16 @@ def refresh_spotify_token(session_id):
 # pass endpoint to specific api endpoint
 def execute_spotify_api_request(session_id, endpoint, post_=False, put_=False):
 
-    #Get token from SpotifyToken model based on the specified session_id
+    # Get token from SpotifyToken model based on the specified session_id
+       # Get token from SpotifyToken model based on the specified session_id
     tokens = get_user_tokens(session_id)
+
+    # If tokens is None or access token is None, redirect to authentication URL
+    if tokens is None or tokens.access_token is None:
+        # Redirect to the authentication URL
+        return HttpResponseRedirect(reverse('get-auth-url'))
+
+
     header = {'Content-Type': 'application/json', 'Authorization': "Bearer " + tokens.access_token}
     
     if post_:

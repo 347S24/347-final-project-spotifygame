@@ -100,7 +100,11 @@ class UserSavedTracks(APIView):
         for item in items:
             track = item.get('track', {})
             duration = track.get('duration_ms')
-            album_cover = track.get('album', {}).get('images', [])[0].get('url')
+            album_cover = track.get('album', {}).get('images')
+            if album_cover:
+                album_cover = album_cover[0].get('url')
+            else:
+                continue  
             song_id = track.get('id')
             uri = track.get('uri')
             preview_url = track.get('preview_url')
