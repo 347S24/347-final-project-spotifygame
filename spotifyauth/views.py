@@ -6,6 +6,7 @@ from rest_framework import status
 from rest_framework.response import Response
 from .util import *
 import random
+from random import randint
 from django.urls import reverse
 
 
@@ -61,15 +62,33 @@ class IsAuthenticated(APIView):
 # then randomly play a song from their likes 
 
 class UserSavedTracks(APIView):
+    @staticmethod
+    def get_total_liked_tracks(session_id):
+        # Make a request to the Spotify API to get the total number of liked tracks
+        endpoint = "tracks?limit=1"  # Fetch only one track to get the total count
+        response = execute_spotify_api_request(session_id, endpoint)
+        
+        # Check if the response contains the total count information
+        if 'total' in response:
+            return response['total']
+        else:
+            # Handle the case where total count is not available in the response
+            return 0  # Return 0 as default
+
     def get(self, request, format=None):
-        #get the information of the user 
-        #change endpoint to specific api endpoint
-        # change offset to 50 to access the next 50 tracks, 100 after CAN MAKE IT VARIABLE bc offset is where the 1st track returned is
-        endpoint = "tracks?&offset=0&limit=50" #access to currently playing song on users spotify account
+        # Get the total number of liked tracks
+        total_tracks = self.get_total_liked_tracks(request.COOKIES.get('sessionid'))
+
+        # Generate a random offset within the range of total liked tracks
+        offset = randint(0, total_tracks - 1)
+
+        # Construct the endpoint with the random offset
+        endpoint = f"tracks?offset={offset}&limit=50" #access to currently playing song on users spotify account
         #must include token to request 
 
 #check the sessionid again
         response = execute_spotify_api_request(request.COOKIES.get('sessionid'), endpoint)
+
 
         if 'error' in response or 'items' not in response:
             return Response({}, status=status.HTTP_204_NO_CONNECTION)
@@ -111,4 +130,10 @@ class UserSavedTracks(APIView):
 
         # I have a list of user's liked songs now. I want to randomly choose one
         #return Response(songs, status=status.HTTP_200_OK)
+
+
+
+
+        
+
 
