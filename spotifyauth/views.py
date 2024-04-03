@@ -103,6 +103,11 @@ class UserSavedTracks(APIView):
             album_cover = track.get('album', {}).get('images', [])[0].get('url')
             song_id = track.get('id')
             uri = track.get('uri')
+            preview_url = track.get('preview_url')
+
+              # If preview_url is None, skip this track and continue to the next one
+            if preview_url is None:
+                continue
 
             artist_string = ""
 
@@ -126,6 +131,7 @@ class UserSavedTracks(APIView):
             return Response({}, status=status.HTTP_204_NO_CONTENT)
 
         random_song = random.choice(songs)
+        print(random_song)
         return render(request, 'pages/game.html', {'random_song': random_song})
 
         # I have a list of user's liked songs now. I want to randomly choose one
