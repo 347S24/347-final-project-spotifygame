@@ -1,30 +1,51 @@
 {% extends "base.html" %}
 
-
 {% block extra_css %}
     <link rel="stylesheet" href="static/css/game.css">
 {% endblock %}
 
-
 {% block content %}
-<body class="background">
-    <h1>Guess The Song!</h1>
-    <div style="display: flex; justify-content:  center;">
-        <p style="margin: 10px;">Enter your guess:</p>
-        <input type="text" id="guess" name="guess" style="margin: 10px;"><br><br>
-        <input type="submit" value="Submit" style="margin: 10px;">
+<div style="
+background:
+radial-gradient(
+  farthest-side at bottom right,
+  rgba(0, 255, 0, 0.2),
+  transparent
+),
+radial-gradient(
+  farthest-corner at bottom left,
+  rgba(83, 83, 83, 0.5),
+  transparent 800px
+),
+radial-gradient(
+  farthest-side at top right,
+  rgba(93, 93, 93, 0.3),
+  transparent 900px
+);
+background-color: #000000;">
+    <h1 style="color: white; margin: 20px; height: 10vh; font-family: Impact; font-size: 3.5em;">Guess The Song!</h1>
+
+    <div style="display: flex; justify-content: space-evenly; align-items: center; height: 80vh;">
+        
+        <div style="display: flex; flex-direction: column; margin: 10px">
+            <img src="{{ random_song.image_url }}" alt="{{ random_song.title }} Album Cover" style="height: 55vh;">
+
+            <figure style="height: 25vh;">
+                <figcaption style="color: white; margin: 10px; font-family: Impact; font-size: 1.5em;">Play Song</figcaption>
+                <audio controls src="{{ random_song.preview_url }}"></audio>
+            </figure>
+        </div>
+
+        <div>
+            <p style="color: white; font-family: Impact; font-size: 1.5em; margin: 5px;">Enter your guess:</p>
+            <div style="display: flex;"></div>
+                <input type="text" id="guess" name="guess" style="width: 40vh; margin: 10px;">
+                <input type="submit" value="Submit" style="margin: 10px;">
+            </div>
+        </div>
+
     </div>
-    <div style="display: flex; justify-content:  center;">
-    <figure>
-        <figcaption>Play Song</figcaption>
-        <audio controls src="{{ random_song.preview_url }}"></audio>
-    </figure>
-    </div>
-    <div style="display: flex; justify-content: center; align-items: center; height: 100vh;">
-        <!-- If we want to show the album cover -->
-        <img src="{{ random_song.image_url }}" alt="{{ random_song.title }} Album Cover" style="max-width: 50%; height: 55vh;">
-    </div>
-</body>
+</div>
 {% endblock %}
 
 
