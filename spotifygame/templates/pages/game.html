@@ -23,7 +23,7 @@ radial-gradient(
   transparent 900px
 );
 background-color: #000000;">
-    <h1 style="color: white; margin: 20px; height: 10vh; font-family: Impact; font-size: 3.5em;">Guess The Song!</h1>
+    <h1 style="color: #1ED760; margin: 20px; height: 10vh; font-family: Impact; font-size: 3.5em;">Guess The Song!</h1>
 
     <div style="display: flex; justify-content: space-evenly; align-items: center; height: 80vh;">
         
@@ -31,17 +31,18 @@ background-color: #000000;">
             <img src="{{ random_song.image_url }}" alt="{{ random_song.title }} Album Cover" style="height: 55vh;">
 
             <figure style="height: 25vh;">
-                <figcaption style="color: white; margin: 10px; font-family: Impact; font-size: 1.5em;">Play Song</figcaption>
+                <figcaption style="color: #1ED760; margin: 10px; font-family: Impact; font-size: 1.5em;">Play Song</figcaption>
                 <audio controls src="{{ random_song.preview_url }}"></audio>
             </figure>
         </div>
 
-        <div>
-            <p style="color: white; font-family: Impact; font-size: 1.5em; margin: 5px;">Enter your guess:</p>
+        <div style="height: 35vh; ">
+            <p style="color: #1ED760; font-family: Impact; font-size: 1.5em; margin: 5px;">Enter your guess:</p>
             <div style="display: flex;"></div>
                 <input type="text" id="guess" name="guess" style="width: 40vh; margin: 10px;">
                 <input type="submit" value="Submit" style="margin: 10px;">
             </div>
+
         </div>
 
     </div>
