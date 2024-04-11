@@ -3,10 +3,11 @@ from .base import *  # noqa
 from .base import env
 
 os.environ["SPOTIFY_REDIRECT_URL"] = "beatbuster.me"
+
+SECRET_KEY = "Ga;sldgkAL;EKSEwefscs(%23ac21"
+
 # GENERAL
 # ------------------------------------------------------------------------------
-# https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
-SECRET_KEY = env("DJANGO_SECRET_KEY")
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = env.list(
     "DJANGO_ALLOWED_HOSTS", default=["everycheese.com"]
@@ -22,18 +23,6 @@ DATABASES["default"]["CONN_MAX_AGE"] = env.int(  # noqa: F405
 
 # CACHES
 # ------------------------------------------------------------------------------
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": env("REDIS_URL"),
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            # Mimicing memcache behavior.
-            # http://niwinz.github.io/django-redis/latest/#_memcached_exceptions_behavior
-            "IGNORE_EXCEPTIONS": True,
-        },
-    }
-}
 
 # SECURITY
 # ------------------------------------------------------------------------------
@@ -65,9 +54,9 @@ SECURE_CONTENT_TYPE_NOSNIFF = env.bool(
 )
 
 
-STATICFILES_STORAGE = (
-    "whitenoise.storage.CompressedManifestStaticFilesStorage"
-)
+#STATICFILES_STORAGE = (
+#    "whitenoise.storage.CompressedManifestStaticFilesStorage"
+#)
 
 # https://github.com/antonagestam/collectfast#upload-strategies
 COLLECTFAST_STRATEGY = (
