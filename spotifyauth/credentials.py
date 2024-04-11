@@ -6,4 +6,4 @@ CLIENT_SECRET = "86de7569e0274efbb7aecdc62019afd6"
 
 URL = os.environ["SPOTIFY_REDIRECT_URL"]
 print(URL)
-REDIRECT_URI = f"http://{URL}/spotifyauth/redirect"
+REDIRECT_URI = f"{URL}/spotifyauth/redirect"

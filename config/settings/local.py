@@ -2,7 +2,7 @@ import os
 from .base import *  # noqa
 from .base import env
 
-os.environ["SPOTIFY_REDIRECT_URL"] = "127.0.0.1:8000"
+os.environ["SPOTIFY_REDIRECT_URL"] = "http://127.0.0.1:8000"
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug

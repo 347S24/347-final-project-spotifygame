@@ -2,10 +2,9 @@ import os
 from .base import *  # noqa
 from .base import env
 
-os.environ["SPOTIFY_REDIRECT_URL"] = "beatbuster.me"
-
 SECRET_KEY = "Ga;sldgkAL;EKSEwefscs(%23ac21"
 
+os.environ["SPOTIFY_REDIRECT_URL"] = "https://beatbuster.me"
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
