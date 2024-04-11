@@ -1,6 +1,8 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+from config.settings.base import AUTH_USER_MODEL
+
 
 
 class SpotifyToken(models.Model):
@@ -15,7 +17,7 @@ class UserProfile(models.Model):
     # one to one realtionship with User model (built in)
     # links each UserProgile to single user instance
     # if one is deleted corresponding deleted (CASCADE)
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     # will need to link up with game
     high_score = models.IntegerField(default=0)
