@@ -77,7 +77,7 @@ DJANGO_APPS = [
     "django.forms",
     "rest_framework",
     "spotifyauth.apps.SpotifyauthConfig"
-    
+
 
 ]
 THIRD_PARTY_APPS = [
@@ -293,3 +293,5 @@ SOCIALACCOUNT_ADAPTER = (
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'
