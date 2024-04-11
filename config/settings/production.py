@@ -1,6 +1,8 @@
+import os
 from .base import *  # noqa
 from .base import env
 
+os.environ["SPOTIFY_REDIRECT_URL"] = "beatbuster.me"
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#secret-key
