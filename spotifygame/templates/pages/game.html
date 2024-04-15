@@ -1,52 +1,55 @@
-{% extends "base.html" %}
+{% include "base.html" %}
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <header>
+        <script src="{% static 'js\game.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'css\game.css' %}">
+    </header>
+    <body>
+        <div style="
+        background:
+        radial-gradient(
+        farthest-side at bottom right,
+        rgba(0, 255, 0, 0.2),
+        transparent
+        ),
+        radial-gradient(
+        farthest-corner at bottom left,
+        rgba(83, 83, 83, 0.5),
+        transparent 800px
+        ),
+        radial-gradient(
+        farthest-side at top right,
+        rgba(93, 93, 93, 0.3),
+        transparent 900px
+        );
+        background-color: #000000;">
+            <h1 style="color: #1ED760; margin: 20px; height: 10vh; font-family: Impact; font-size: 3.5em;">Guess The Song!</h1>
 
-{% block extra_css %}
-    <link rel="stylesheet" href="static/css/game.css">
-{% endblock %}
+            <div style="display: flex; justify-content: space-evenly; align-items: center; height: 80vh;">
+                
+                <div style="display: flex; flex-direction: column; margin: 10px">
+                    <img src="{{ random_song.image_url }}" alt="{{ random_song.title }} Album Cover" style="height: 55vh;">
 
-{% block content %}
-<div style="
-background:
-radial-gradient(
-  farthest-side at bottom right,
-  rgba(0, 255, 0, 0.2),
-  transparent
-),
-radial-gradient(
-  farthest-corner at bottom left,
-  rgba(83, 83, 83, 0.5),
-  transparent 800px
-),
-radial-gradient(
-  farthest-side at top right,
-  rgba(93, 93, 93, 0.3),
-  transparent 900px
-);
-background-color: #000000;">
-    <h1 style="color: #1ED760; margin: 20px; height: 10vh; font-family: Impact; font-size: 3.5em;">Guess The Song!</h1>
+                    <figure style="height: 25vh;">
+                        <figcaption style="color: #1ED760; margin: 10px; font-family: Impact; font-size: 1.5em;">Play Song</figcaption>
+                        <audio controls src="{{ random_song.preview_url }}"></audio>
+                    </figure>
+                </div>
 
-    <div style="display: flex; justify-content: space-evenly; align-items: center; height: 80vh;">
-        
-        <div style="display: flex; flex-direction: column; margin: 10px">
-            <img src="{{ random_song.image_url }}" alt="{{ random_song.title }} Album Cover" style="height: 55vh;">
+                <div style="height: 40vh; display: flex; flex-direction: column;">
+                    <p style="color: #1ED760; font-family: Impact; font-size: 1.5em; margin: 5px;">Enter your guess:</p>
+                    <div style="display: flex; flex-direction: row; height: 7vh;">
+                        <input type="text" id="guess" name="guess" style="width: 40vh; margin: 10px;">
+                        <button class="green-button" role="guess">Submit</button>
+                    </div>
+                    <button class="green-button" role="hint" style="margin: 18px;">Give Me a Hint!</button>>
+                </div>
 
-            <figure style="height: 25vh;">
-                <figcaption style="color: #1ED760; margin: 10px; font-family: Impact; font-size: 1.5em;">Play Song</figcaption>
-                <audio controls src="{{ random_song.preview_url }}"></audio>
-            </figure>
-        </div>
-
-        <div style="height: 35vh; ">
-            <p style="color: #1ED760; font-family: Impact; font-size: 1.5em; margin: 5px;">Enter your guess:</p>
-            <div style="display: flex;"></div>
-                <input type="text" id="guess" name="guess" style="width: 40vh; margin: 10px;">
-                <input type="submit" value="Submit" style="margin: 10px;">
             </div>
-
         </div>
-
-    </div>
-</div>
-{% endblock %}
+    </body>
+</html>
 
 
