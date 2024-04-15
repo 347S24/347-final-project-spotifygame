@@ -168,7 +168,6 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
 
-WHITENOISE_MANIFEST_STRICT = False
 
 # MEDIA
 # ------------------------------------------------------------------------------
