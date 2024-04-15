@@ -77,7 +77,7 @@ DJANGO_APPS = [
     "django.forms",
     "rest_framework",
     "spotifyauth.apps.SpotifyauthConfig"
-    
+
 
 ]
 THIRD_PARTY_APPS = [
@@ -144,7 +144,6 @@ AUTH_PASSWORD_VALIDATORS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#middleware
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
-    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -168,6 +167,8 @@ STATICFILES_FINDERS = [
     "django.contrib.staticfiles.finders.FileSystemFinder",
     "django.contrib.staticfiles.finders.AppDirectoriesFinder",
 ]
+
+WHITENOISE_MANIFEST_STRICT = False
 
 # MEDIA
 # ------------------------------------------------------------------------------
@@ -293,3 +294,5 @@ SOCIALACCOUNT_ADAPTER = (
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

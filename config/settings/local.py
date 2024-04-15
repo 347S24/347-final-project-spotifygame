@@ -1,6 +1,8 @@
+import os
 from .base import *  # noqa
 from .base import env
 
+os.environ["SPOTIFY_REDIRECT_URL"] = "http://127.0.0.1:8000"
 # GENERAL
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#debug
@@ -11,7 +13,7 @@ SECRET_KEY = env(
     default="!!!SET DJANGO_SECRET_KEY!!!",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1"]
+ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "137.184.36.212"]
 
 # CACHES
 # ------------------------------------------------------------------------------

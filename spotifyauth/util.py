@@ -12,8 +12,13 @@ from django.http import HttpResponseRedirect
 BASE_URL = "https://api.spotify.com/v1/me/"
 
 
+def get_user_tokens(session_id):
+    user_tokens = SpotifyToken.objects.filter(user=session_id)
 
-
+    if user_tokens.exists():
+        return user_tokens[0]
+    else:
+        return None
 
 def update_or_create_user_tokens(session_id, access_token, token_type, expires_in, refresh_token):
     tokens = get_user_tokens(session_id)
@@ -29,24 +34,21 @@ def update_or_create_user_tokens(session_id, access_token, token_type, expires_i
     else:
         tokens = SpotifyToken(user=session_id, access_token=access_token,
                               refresh_token=refresh_token, token_type=token_type, expires_in=expires_in)
-        tokens.save()
+    
+    tokens.save()
 
-def get_user_tokens(session_id):
-    user_tokens = SpotifyToken.objects.filter(user=session_id)
 
-    if user_tokens.exists():
-        return user_tokens[0]
-    else:
-        return None
-
+#this is a weird way to do this but it worked....:) 
 def is_spotify_authenticated(session_id):
     tokens = get_user_tokens(session_id)
-    if tokens is not None:
-        expiry = tokens.expires_in
-        if expiry <= timezone.now():
-            refresh_spotify_token(session_id)
+   # if tokens: #is not None:
+    #    expiry = tokens.expires_in
+     #   print(expiry)
+     #   print(timezone.now())
+    #    if expiry <= timezone.now():
+    #        refresh_spotify_token(session_id)
             
-        return True
+       # return True
 
     return False
 
@@ -81,7 +83,7 @@ def execute_spotify_api_request(session_id, endpoint, post_=False, put_=False):
     # If tokens is None or access token is None, redirect to authentication URL
     if tokens is None or tokens.access_token is None:
         # Redirect to the authentication URL
-        return HttpResponseRedirect(reverse('get-auth-url'))
+        return redirect(reverse('spotifyauth:get-auth-url'))     #####help here
 
 
     header = {'Content-Type': 'application/json', 'Authorization': "Bearer " + tokens.access_token}

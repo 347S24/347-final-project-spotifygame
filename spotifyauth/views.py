@@ -66,6 +66,7 @@ class UserSavedTracks(APIView):
     def get_total_liked_tracks(session_id):
         # Make a request to the Spotify API to get the total number of liked tracks
         endpoint = "tracks?limit=1"  # Fetch only one track to get the total count
+        # error here?
         response = execute_spotify_api_request(session_id, endpoint)
         
         # Check if the response contains the total count information
@@ -77,7 +78,16 @@ class UserSavedTracks(APIView):
 
     def get(self, request, format=None):
         # Get the total number of liked tracks
+        # error here?
         total_tracks = self.get_total_liked_tracks(request.COOKIES.get('sessionid'))
+
+
+        #Authentication not working correctly.. why?
+        # access token is expired... what about refresh token? -- > need to use refresh token me thinks
+        if total_tracks == 0:
+        # Return a response indicating that the user has no liked tracks
+            return Response({'message': 'You have no liked tracks.'}, status=status.HTTP_204_NO_CONTENT)
+
 
         # Generate a random offset within the range of total liked tracks
         offset = randint(0, total_tracks - 1)
