@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% url 'spotifygame:home' %}
+{% load static %}
 
 {% block extra_css %}
     <link rel="stylesheet" href="static/css/home.css">
@@ -16,6 +17,10 @@
   </div>
 </div>
 {% endblock %}
+
+{% block javascript %}
+<script src="{% static 'js/project.js' %}"></script>
+{% endblock javascript %}
 
 
 

@@ -1,7 +1,58 @@
-/* CSS */
+.background {
+  height: 100vh;
+  background-color: #121212;
+}
+
+#div1 {
+  background:
+      radial-gradient(
+      farthest-side at bottom right,
+      rgba(0, 255, 0, 0.2),
+      transparent
+      ),
+      radial-gradient(
+      farthest-corner at bottom left,
+      rgba(83, 83, 83, 0.5),
+      transparent 800px
+      ),
+      radial-gradient(
+      farthest-side at top right,
+      rgba(93, 93, 93, 0.3),
+      transparent 900px
+      );
+  background-color: #000000;
+}
+
+.gradients {
+  height: 100vh;
+  background:
+    radial-gradient(
+      farthest-side at bottom right,
+      rgba(0, 255, 0, 0.2),
+      transparent
+    ),
+    radial-gradient(
+      farthest-corner at bottom left,
+      rgba(83, 83, 83, 0.5),
+      transparent 800px
+    ),
+    radial-gradient(
+      farthest-side at top right,
+      rgba(93, 93, 93, 0.3),
+      transparent 900px
+    );
+}
+
+h1 {
+  color: #1ED760; 
+  margin: 20px; 
+  height: 10vh; 
+  font-family: Impact; 
+  font-size: 3.5em;
+}
+
 .green-button {
-  display: flex;
-  align-items: center;
+  text-align: center;
   font-family: inherit;
   font-weight: 500;
   font-size: 16px;
@@ -11,7 +62,6 @@
   background: linear-gradient(0deg, rgba(20,167,62,1) 0%, rgba(102,247,113,1) 100%);
   border: none;
   box-shadow: 0 0.7em 1.5em -0.5em #14a73e98;
-  letter-spacing: 0.05em;
   border-radius: 20em;
   cursor: pointer;
   user-select: none;
@@ -19,10 +69,10 @@
   touch-action: manipulation;
 }
 
-.button-88:hover {
+.green-button:hover {
   box-shadow: 0 0.5em 1.5em -0.5em #14a73e98;
 }
 
-.button-88:active {
+.green-button:active {
   box-shadow: 0 0.3em 1em -0.5em #14a73e98;
 }
