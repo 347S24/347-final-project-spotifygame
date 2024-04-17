@@ -154,25 +154,4 @@ class UserSavedTracks(APIView):
         #return Response(songs, status=status.HTTP_200_OK)
 
 
-from django.contrib.auth import logout
-from django.shortcuts import redirect
-from .models import SpotifyToken
-
-
-def logout_view(request):
-    # Revoke the access token provided by Spotify
-    refresh_spotify_token(request.session.session_key)
-
-    # Clear the session data associated with Spotify authentication
-    SpotifyToken.objects.filter(user=request.session.session_key).delete()
-    request.session.clear()
-
-    # Logout the user from your Django app
-   # logout(request)
-
-    # Redirect to the home page or any other desired page
-    return redirect('home')
-
-
-
 
