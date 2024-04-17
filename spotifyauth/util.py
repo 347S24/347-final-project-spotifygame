@@ -40,7 +40,9 @@ def update_or_create_user_tokens(session_id, access_token, token_type, expires_i
 
 #this is a weird way to do this but it worked....:) 
 def is_spotify_authenticated(session_id):
-    tokens = get_user_tokens(session_id)
+
+ 
+   # tokens = get_user_tokens(session_id)
    # if tokens: #is not None:
     #    expiry = tokens.expires_in
      #   print(expiry)

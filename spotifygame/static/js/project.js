@@ -1,9 +1,10 @@
 // Define the authenticateSpotify function
 function authenticateSpotify() {
+
+  
   // Check if Spotify is already authenticated
   fetch("/spotifyauth/is-authenticated")
     .then(function(response) {
-
       return response.json();
     })
     .then(function(data) {
@@ -22,6 +23,9 @@ function authenticateSpotify() {
       }
     });
 }
+
+
+
 
 // Add event listener when DOM content is loaded
 document.addEventListener('DOMContentLoaded', function () {

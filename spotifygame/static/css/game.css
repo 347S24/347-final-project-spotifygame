@@ -69,6 +69,25 @@ h1 {
   touch-action: manipulation;
 }
 
+.green-button-small {
+  width: 10rem;
+  margin-left: 7.2rem;
+  text-align: center;
+  font-family: inherit;
+  font-weight: 500;
+  font-size: 12px;
+  color: white;
+  background: #ad5389;
+  background: linear-gradient(0deg, rgba(20,167,62,1) 0%, rgba(102,247,113,1) 100%);
+  border: none;
+  box-shadow: 0 0.7em 1.5em -0.5em #14a73e98;
+  border-radius: 10em;
+  cursor: pointer;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
 .green-button:hover {
   box-shadow: 0 0.5em 1.5em -0.5em #14a73e98;
 }
