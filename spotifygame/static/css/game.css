@@ -3,6 +3,18 @@
   background-color: #121212;
 }
 
+#hint-section {
+  color: white;
+  font-family: Impact; 
+}
+
+#correct-div {
+  color: hsl(137, 65%, 56%);
+  font-family: Impact; 
+  font-weight: 500;
+  font-size: 100px;
+}
+
 #div1 {
   background:
       radial-gradient(
@@ -70,12 +82,12 @@ h1 {
 }
 
 .green-button-small {
-  width: 10rem;
+  width: 13rem;
   margin-left: 7.2rem;
   text-align: center;
   font-family: inherit;
   font-weight: 500;
-  font-size: 12px;
+  font-size: 15px;
   color: white;
   background: #ad5389;
   background: linear-gradient(0deg, rgba(20,167,62,1) 0%, rgba(102,247,113,1) 100%);

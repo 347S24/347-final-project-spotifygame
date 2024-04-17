@@ -10,30 +10,35 @@
 {% block content %}
 
         <div id="div1">
-            <h1 style="color: #1ED760; margin: 20px; height: 10vh; font-family: Impact; font-size: 3.5em;">Guess The Song!</h1>
-
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-right: 1%; margin-bottom: 20px;">
+                <h1 style="color: #1ED760; font-family: Impact; font-size: 3.5em;">Guess The Song!</h1>
+                <button class="green-button-small" id="spotify-logout" type="submit">Logout of Spotify</button>
+            </div>
             <div style="display: flex; justify-content: space-evenly; align-items: center; height: 80vh;">
                 
                 <div style="display: flex; flex-direction: column; margin: 10px">
                     <img src="{{ random_song.image_url }}" alt="{{ random_song.title }} Album Cover" style="height: 55vh;">
 
-                    <figure style="height: 25vh;">
+                    <figure id="song-preview" style="height: 25vh;">
                         <figcaption style="color: #1ED760; margin: 10px; font-family: Impact; font-size: 1.5em;">Play Song</figcaption>
-                        <audio controls src="{{ random_song.preview_url }}"></audio>
+                        <audio id="song-player" controls src="{{ random_song.preview_url }}"></audio>
                     </figure>
                 </div>
 
-                <div style="height: 40vh; display: flex; flex-direction: column;">
+                <div id="guess-div" style="height: 40vh; display: flex; flex-direction: column;">
                     <p style="color: #1ED760; font-family: Impact; font-size: 1.5em; margin: 5px;">Enter your guess:</p>
                     <div style="display: flex; flex-direction: row; height: 7vh;">
+                        <input type="hidden" id="song-title" value="{{ random_song.title }}">
+                        <input type="hidden" id="song-album" value="{{ random_song.album }}">
                         <input type="text" id="guess" name="guess" style="width: 40vh; margin: 10px;">
                         <button class="green-button" id="submit-button" role="guess">Submit</button>
                     </div>
+                    
+                    <input type="hidden" id="song-artist" value="{{ random_song.artist }}">
                     <button class="green-button" id="hint-button" role="hint" style="margin: 18px;">Give Me a Hint!</button>>
-                    <button class="green-button-small" id="spotify-logout" type="submit">Logout of Spotify</button>
                 </div>
 
-                
+                <button class="green-button" id="next-button" style="display: none;">Next Song</button>
                
                 
                 

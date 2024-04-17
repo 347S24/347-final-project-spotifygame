@@ -135,6 +135,7 @@ class UserSavedTracks(APIView):
             song = {
                 'title': track.get('name'),
                 'artist': artist_string,
+                'album': track.get('album').get('name'),
                 'duration': duration,
                 'image_url': album_cover,
                 'preview_url': track.get('preview_url'),
