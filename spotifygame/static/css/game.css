@@ -82,7 +82,7 @@ h1 {
 }
 
 .green-button-small {
-  width: 13rem;
+  width: 10rem;
   margin-left: 7.2rem;
   text-align: center;
   font-family: inherit;
@@ -99,6 +99,11 @@ h1 {
   -webkit-user-select: none;
   touch-action: manipulation;
 }
+
+#skip-button {
+  margin-left: 7rem;
+}
+
 
 .green-button:hover {
   box-shadow: 0 0.5em 1.5em -0.5em #14a73e98;

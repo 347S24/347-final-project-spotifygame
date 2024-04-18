@@ -93,4 +93,5 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById("submit-button").addEventListener("click", submitButton);
     document.getElementById("hint-button").addEventListener("click", hintButton);
     document.getElementById("next-button").addEventListener("click", nextButton);
+    document.getElementById("skip-button").addEventListener("click", nextButton);
 });
