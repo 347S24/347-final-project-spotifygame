@@ -88,6 +88,15 @@ function logoutFromSpotify() {
 
 
 document.addEventListener('DOMContentLoaded', function () {
+    
+    // Parse gamemode from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const gamemode = urlParams.get('mode');
+    
+    // Eventually need to change game logic depending 
+    // on this gamemode variable
+    console.log(gamemode);
+    
     // Add event listener for click on the login button
     document.getElementById('spotify-logout').addEventListener('click', logoutFromSpotify);
     document.getElementById("submit-button").addEventListener("click", submitButton);
