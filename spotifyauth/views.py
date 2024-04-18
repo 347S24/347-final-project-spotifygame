@@ -49,7 +49,7 @@ def spotify_callback(request, format=None):
     update_or_create_user_tokens(
         request.session.session_key, access_token, token_type, expires_in, refresh_token)
 
-    return redirect('game/') #change this to redirect to the game page
+    return redirect('gameselect/') #change this to redirect to the game page
 
 class IsAuthenticated(APIView):
     def get(self, request, format=None):
@@ -81,7 +81,6 @@ class UserSavedTracks(APIView):
         # Get the total number of liked tracks
         # error here?
         total_tracks = self.get_total_liked_tracks(request.COOKIES.get('sessionid'))
-
 
         #Authentication not working correctly.. why?
         # access token is expired... what about refresh token? -- > need to use refresh token me thinks
