@@ -29,6 +29,11 @@
     );
 }
 
+h1 {
+  font-weight: bold;
+  color: var(--light-green);
+}
+
 .home-content {
   height: 85%;
 
