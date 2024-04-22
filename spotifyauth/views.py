@@ -92,8 +92,13 @@ class UserSavedTracks(APIView):
         # Generate a random offset within the range of total liked tracks
         offset = randint(0, total_tracks - 1)
 
+        limit = total_tracks
+
+        if limit > 50:
+            limit = 50
+
         # Construct the endpoint with the random offset
-        endpoint = f"tracks?offset={offset}&limit=50" #access to currently playing song on users spotify account
+        endpoint = f"tracks?offset={offset}&limit={limit}" #access to currently playing song on users spotify account
         #must include token to request 
 
 #check the sessionid again
