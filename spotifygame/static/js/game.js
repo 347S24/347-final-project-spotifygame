@@ -40,12 +40,12 @@ class Game {
         let guessCorrect = false;
         if (normalizeString(guess) === normalizeString(songTitle)) {
             displayCorrect();
-            this.guessCorrect = true;
+            guessCorrect = true;
         } else {
             displayIncorrect();
         }
 
-        this.adjustScore(this.guessCorrect);
+        this.adjustScore(guessCorrect);
     }
 
 
