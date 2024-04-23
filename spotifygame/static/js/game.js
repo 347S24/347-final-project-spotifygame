@@ -80,7 +80,7 @@ const displayIncorrect = () => {
 
 const displayCorrect = () => {
   let guessDiv = document.getElementById("guess-div");
-  clearDiv(guessDiv);
+  clearGuessDiv(guessDiv);
 
   let songPlayer = document.getElementById("song-player");
   songPlayer.play();
