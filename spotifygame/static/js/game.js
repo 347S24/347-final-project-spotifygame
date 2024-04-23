@@ -324,7 +324,7 @@ function resetGamePage(game) {
         songPlayer.currentTime = 0; // Reset song time
     }
 
-    game.updateScoreDisplay(); // Not sure if this is working either 
+    game.updateScoreDisplay(); // for some reason necessary for score display to stay on the screen
 
     skipSong() // this to load the very first song (hopefully doesn't cause issues)
 }
@@ -347,6 +347,7 @@ document.addEventListener('DOMContentLoaded', function () {
         switch (targetId) {
             case "submit-button":
                 game.submitGuess();
+                game.updateScoreDisplay();
                 break;
             case "hint-button":
                 hintButton();
