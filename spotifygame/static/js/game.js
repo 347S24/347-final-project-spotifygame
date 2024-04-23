@@ -23,10 +23,10 @@ class Game {
                 this.streak = guessCorrect ? this.streak + 1 : 0;
                 break;
             case "timed":
-                this.correct_guesses = guessCorrect ? this.correct_guesses + 1 : this.correct_guesses;
+                this.correctGuesses = guessCorrect ? this.correctGuesses + 1 : this.correctGuesses;
                 break;
             case "bo10":
-                this.correct_guesses = guessCorrect ? this.correct_guesses + 1 : this.correct_guesses;
+                this.correctGuesses = guessCorrect ? this.correctGuesses + 1 : this.correctGuesses;
                 this.guessesLeft -= 1;
                 break;
         }
@@ -44,8 +44,8 @@ class Game {
         } else {
             displayIncorrect();
         }
-        this.adjustScore(guessCorrect);
-        // this.updateScoreDisplay();
+
+        this.adjustScore(this.guessCorrect);
     }
 
 
@@ -238,7 +238,7 @@ function resetGamePage(game) {
     // Recreate the score-div and guess input field
     let scoreDiv = document.createElement("div");
     scoreDiv.id = "score-div";
-    scoreDiv.innerHTML = '<p id="score" class="text">SCORE: 0</p>';
+    scoreDiv.innerHTML = '<p id="score" class="text"></p>';
 
     let songArtist = document.createElement("input");
     songArtist.type = "hidden";
