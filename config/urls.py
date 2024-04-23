@@ -24,6 +24,9 @@ urlpatterns = [
         name="about",
     ),
 
+    path("error/",   TemplateView.as_view(template_name="pages/error.html"),
+        name="error",),
+
 
     # Django Admin, use {% url 'admin:index' %}
     path(settings.ADMIN_URL, admin.site.urls),

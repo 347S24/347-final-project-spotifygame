@@ -86,7 +86,8 @@ class UserSavedTracks(APIView):
         # access token is expired... what about refresh token? -- > need to use refresh token me thinks
         if total_tracks == 0:
         # Return a response indicating that the user has no liked tracks
-            return Response({'message': 'You have no liked tracks.'}, status=status.HTTP_204_NO_CONTENT)
+            error_url = reverse('error')
+            return HttpResponseRedirect(error_url)
 
 
         # Generate a random offset within the range of total liked tracks
