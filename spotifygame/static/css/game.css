@@ -1,7 +1,30 @@
-.background {
-  height: 100vh;
-  background-color: #121212;
+#top-bar {
+  display: flex; 
+  justify-content: space-between;
+  align-items: center;
+  margin-right: 1%; 
+  margin-bottom: 20px;
 }
+
+#container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 80vh;
+}
+
+#song-container {
+  display: flex; 
+  flex-direction: column; 
+  margin: 10px"
+}
+
+#guess-div {
+  height: 40vh; 
+  display: flex; 
+  flex-direction: column;
+}
+
 
 #hint-section {
   color: white;
@@ -14,6 +37,8 @@
   font-weight: 500;
   font-size: 100px;
 }
+
+
 
 #div1 {
   background:
@@ -35,31 +60,16 @@
   background-color: #000000;
 }
 
-.gradients {
-  height: 100vh;
-  background:
-    radial-gradient(
-      farthest-side at bottom right,
-      rgba(0, 255, 0, 0.2),
-      transparent
-    ),
-    radial-gradient(
-      farthest-corner at bottom left,
-      rgba(83, 83, 83, 0.5),
-      transparent 800px
-    ),
-    radial-gradient(
-      farthest-side at top right,
-      rgba(93, 93, 93, 0.3),
-      transparent 900px
-    );
+.text {
+  color: #1ED760;
+  font-family: Impact;
+  font-size: 1.5em;
+  margin: 10px;
 }
 
-h1 {
-  color: #1ED760; 
+h1.text {
   margin: 20px; 
   height: 10vh; 
-  font-family: Impact; 
   font-size: 3.5em;
 }
 
@@ -81,23 +91,11 @@ h1 {
   touch-action: manipulation;
 }
 
-.green-button-small {
+.green-button.small {
   width: 10rem;
   margin-left: 7.2rem;
-  text-align: center;
-  font-family: inherit;
-  font-weight: 500;
   font-size: 15px;
-  color: white;
-  background: #ad5389;
-  background: linear-gradient(0deg, rgba(20,167,62,1) 0%, rgba(102,247,113,1) 100%);
-  border: none;
-  box-shadow: 0 0.7em 1.5em -0.5em #14a73e98;
   border-radius: 10em;
-  cursor: pointer;
-  user-select: none;
-  -webkit-user-select: none;
-  touch-action: manipulation;
 }
 
 #skip-button {
@@ -112,3 +110,5 @@ h1 {
 .green-button:active {
   box-shadow: 0 0.3em 1em -0.5em #14a73e98;
 }
+
+
