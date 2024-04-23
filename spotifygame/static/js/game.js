@@ -7,37 +7,97 @@ function normalizeString(str) {
     return str.toLowerCase().trim();
 }
 
-function submitButton() {
-    // Get the value from the input field
-    var guess = document.getElementById("guess").value;
-    var songTitle = document.getElementById("song-title").value;
-    
-    // Compare the strings
-    if (normalizeString(guess) === normalizeString(songTitle)) {
-        var guessDiv = document.getElementById("guess-div");
-        while (guessDiv.firstChild) {
-            guessDiv.removeChild(guessDiv.firstChild);
-        }
-        
-        var songPlayer = document.getElementById("song-player");
-        songPlayer.play();
-        
-        var songPrev = document.getElementById("song-preview");
-        songPrev.style.display = "none";
+class Game {
+  constructor(mode) {
+    this.mode = mode;
+    this.streak = 0
+    this.guessesLeft = 10;
+    this.correctGuesses = 0;
+    this.startTime = Date.now();
+    this.updateScoreDisplay();
+  }
 
-        var correctDiv = document.createElement("div");
-        correctDiv.innerText = "Correct!";
-        correctDiv.id = "correct-div";
-        guessDiv.appendChild(correctDiv);
-
-        var nextButton = document.getElementById("next-button");
-        nextButton.style.display = "initial";
-        guessDiv.appendChild(nextButton);
-
-    } else {
-        console.log("Incorrect guess.");
+  adjustScore(guessCorrect) {
+    switch (this.mode) {
+      case "streak":
+        this.streak = guessCorrect ? this.streak + 1 : 0;
+        break;
+      case "timed":
+        this.correct_guesses = guessCorrect ? this.correct_guesses + 1 : this.correct_guesses;
+        break;
+      case "bo10":
+        this.correct_guesses = guessCorrect ? this.correct_guesses + 1 : this.correct_guesses;
+        this.guessesLeft -= 1;
+        break;
     }
+  }
+
+  submitGuess = () => {
+    console.log(this);
+    let guess = document.getElementById("guess").value;
+    let songTitle = document.getElementById("song-title").value;
+    
+    let guessCorrect = false;
+    if (normalizeString(guess) === normalizeString(songTitle)) {
+      displayCorrect();
+      this.guessCorrect = true;
+    } else {
+      displayIncorrect();
+    }
+    this.adjustScore(guessCorrect);
+    this.updateScoreDisplay();
+  }
+
+  
+  updateScoreDisplay() {
+    let scoreText = document.getElementById("score");
+    let newText = "";
+    switch (this.mode) {
+      case "streak":
+        newText = `Streak: ${this.streak}`
+        break;
+      case "timed":
+        newText = `Time Left: ${Date.now() - this.startTime}`;
+        break;
+      case "bo10":
+        newText = `Guesses Left: ${this.guessesLeft} Score: ${this.correctGuesses}/10`
+        break;
+    }
+    scoreText.textContent = newText;
+  }
 }
+
+const clearGuessDiv = (div) => {
+  while (div.firstChild) {
+    div.removeChild(div.firstChild);
+  }
+}
+
+const displayIncorrect = () => {
+  console.log("Incorrect guess");
+}
+
+
+const displayCorrect = () => {
+  let guessDiv = document.getElementById("guess-div");
+  clearDiv(guessDiv);
+
+  let songPlayer = document.getElementById("song-player");
+  songPlayer.play();
+  
+  let songPrev = document.getElementById("song-preview");
+  songPrev.style.display = "none";
+
+  let correctDiv = document.createElement("div");
+  correctDiv.innerText = "Correct!";
+  correctDiv.id = "correct-div";
+  guessDiv.appendChild(correctDiv);
+
+  let nextButton = document.getElementById("next-button");
+  nextButton.style.display = "initial";
+  guessDiv.appendChild(nextButton);
+} 
+
 
 function hintButton() {
     var hintButton = document.getElementById("hint-button");
@@ -93,13 +153,11 @@ document.addEventListener('DOMContentLoaded', function () {
     const urlParams = new URLSearchParams(window.location.search);
     const gamemode = urlParams.get('mode');
     
-    // Eventually need to change game logic depending 
-    // on this gamemode variable
-    console.log(gamemode);
+    const game = new Game(gamemode); 
     
     // Add event listener for click on the login button
     document.getElementById('spotify-logout').addEventListener('click', logoutFromSpotify);
-    document.getElementById("submit-button").addEventListener("click", submitButton);
+    document.getElementById("submit-button").addEventListener("click", game.submitGuess);
     document.getElementById("hint-button").addEventListener("click", hintButton);
     document.getElementById("next-button").addEventListener("click", nextButton);
     document.getElementById("skip-button").addEventListener("click", nextButton);
