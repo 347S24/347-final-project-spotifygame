@@ -8,16 +8,18 @@
 {% endblock %}
 
 {% block content %}
-<div class="background">
-    <div class="gradients">
+<div id="div1" style="
+height: 100vh;  /* 100% of the viewport height */
+width: 100vw;" >
         <h1> Sorry, an error occured. Redirecting to home.</h1> 
-    </div>
+        <p style="color: #ffffff; font-family: Impact; font-size: 1.3em; margin: 20px;"> Hint: If you don't have any liked songs, add some and try again :)</p>
+
 </div>
 
 <script>
     setTimeout(function() {
         window.location.href = '/';
-    }, 3000); // Redirects after 3 seconds
+    }, 5000); // Redirects after 5 seconds
 </script>
 
 {% endblock %}
