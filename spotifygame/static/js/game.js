@@ -300,9 +300,9 @@ function resetGamePage(game) {
     guessDiv.appendChild(hiddenSongAlbum);
     guessDiv.appendChild(songTitle);
 
-    submitButton.addEventListener("click", game.submitGuess);
-    hintButton2.addEventListener("click", hintButton);
-    skipButton.addEventListener("click", skipSong);
+   // submitButton.addEventListener("click", game.submitGuess);
+   // hintButton2.addEventListener("click", hintButton);
+   // skipButton.addEventListener("click", skipSong);
 
 
     // Hide the next button 
@@ -338,14 +338,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     const game = new Game(gamemode);
 
+    document.getElementById('spotify-logout').addEventListener("click", logoutFromSpotify);
+
     // I had issues with attaching the event listeners again after reloading the game so i just made them to be like this
     document.getElementById('guess-div').addEventListener("click", function (event) {
         const targetId = event.target.id;
 
         switch (targetId) {
-            case "spotify-logout":
-                logoutFromSpotify();
-                break;
             case "submit-button":
                 game.submitGuess();
                 break;
