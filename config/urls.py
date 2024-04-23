@@ -9,6 +9,7 @@ from django.views import defaults as default_views
 
 
 
+
 urlpatterns = [
     
     path('spotifyauth/', include('spotifyauth.urls', namespace='spotifyauth')),
@@ -26,6 +27,7 @@ urlpatterns = [
 
     path("error/",   TemplateView.as_view(template_name="pages/error.html"),
         name="error",),
+
 
 
     # Django Admin, use {% url 'admin:index' %}
