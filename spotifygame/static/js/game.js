@@ -210,6 +210,8 @@ function skipSong() {
     if (hintSection) {
         hintSection.remove(); // Clear all hints when skipping
     }
+
+
     fetchNextSong();
 }
 
@@ -324,7 +326,7 @@ function resetGamePage(game) {
         songPlayer.currentTime = 0; // Reset song time
     }
 
-    game.updateScoreDisplay(); // for some reason necessary for score display to stay on the screen
+    game.updateScoreDisplay(); // for some reason necessary for score display
 
     skipSong() // this to load the very first song (hopefully doesn't cause issues)
 }
@@ -356,6 +358,8 @@ document.addEventListener('DOMContentLoaded', function () {
                 resetGamePage(game);
                 break;
             case "skip-button":
+                game.submitGuess(); 
+                game.updateScoreDisplay(); 
                 skipSong();
                 break;
             default:

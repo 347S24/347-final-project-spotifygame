@@ -59,110 +59,6 @@ class IsAuthenticated(APIView):
         return Response({'status': is_authenticated}, status=status.HTTP_200_OK)
 
 
-# We dont want the current song though, I think we want to access user's liked songs, 
-# then randomly play a song from their likes 
-
-#class UserSavedTracks(APIView):
-  #  @staticmethod
-  #  def get_total_liked_tracks(session_id):
-        # Make a request to the Spotify API to get the total number of liked tracks
-   #     endpoint = "tracks?limit=1"  # Fetch only one track to get the total count
-        # error here?
-   #     response = execute_spotify_api_request(session_id, endpoint)
-        
-        # Check if the response contains the total count information
-   #     if 'total' in response:
-   #         return response['total']
-    #    else:
-            # Handle the case where total count is not available in the response
-   #         return 0  # Return 0 as default
-
-  #  def get(self, request, format=None):
-        # Get the total number of liked tracks
-        # error here?
-    #    total_tracks = self.get_total_liked_tracks(request.COOKIES.get('sessionid'))
-
-        #Authentication not working correctly.. why?
-        # access token is expired... what about refresh token? -- > need to use refresh token me thinks
-   #     if total_tracks == 0:
-        # Return a response indicating that the user has no liked tracks
-    #        return Response({'message': 'You have no liked tracks.'}, status=status.HTTP_204_NO_CONTENT)
-
-
-        # Generate a random offset within the range of total liked tracks
-    #    offset = randint(0, total_tracks - 1)
-
-     #   limit = total_tracks
-
-     #   if limit > 50:
-     #       limit = 50
-
-        # Construct the endpoint with the random offset
-     #   endpoint = f"tracks?offset={offset}&limit={limit}" #access to currently playing song on users spotify account
-        #must include token to request 
-
-#check the sessionid again
-      #  response = execute_spotify_api_request(request.COOKIES.get('sessionid'), endpoint)
-
-
-     #   if 'error' in response or 'items' not in response:
-     #       return Response({}, status=status.HTTP_204_NO_CONNECTION)
-
-     
-     #   items = response.get('items', [])
-     #   songs = []
-
-      #  for item in items:
-       #     track = item.get('track', {})
-       #     duration = track.get('duration_ms')
-       #     album_cover = track.get('album', {}).get('images')
-       #     if album_cover:
-        #        album_cover = album_cover[0].get('url')
-        #    else:
-       #         continue  
-        #    song_id = track.get('id')
-        #    uri = track.get('uri')
-        #    preview_url = track.get('preview_url')
-
-              # If preview_url is None, skip this track and continue to the next one
-       #     if preview_url is None:
-       #         continue
-
-       #     artist_string = ""
-
-       #     for i, artist in enumerate(track.get('artists', [])):
-       #         if i > 0:
-       #             artist_string += ", "
-       #         name = artist.get('name')
-       #         artist_string += name
-
-       #     song = {
-       #         'title': track.get('name'),
-       #         'artist': artist_string,
-       #         'album': track.get('album').get('name'),
-       #         'duration': duration,
-       #         'image_url': album_cover,
-       #         'preview_url': track.get('preview_url'),
-       #         'id': song_id,
-       #         'uri': uri
-       #     }
-      #      songs.append(song)
-      #  if not songs:
-     #       return Response({}, status=status.HTTP_204_NO_CONTENT)
-
-     #   random_song = random.choice(songs)
-     #   print(random_song)
-     #   return render(request, 'pages/game.html', {'random_song': random_song})
-
-        # I have a list of user's liked songs now. I want to randomly choose one
-        #return Response(songs, status=status.HTTP_200_OK)
-
-
-
-#I was scared that getting rid of the page render above would cause a whole lot more problems
-# so I decided to make a separate view instead
-
-
 class SkipToNextSong(APIView):
     @staticmethod
     def get_total_liked_tracks(session_id):
@@ -176,60 +72,77 @@ class SkipToNextSong(APIView):
             return response['total']
         else:
             # Handle the case where total count is not available in the response
-            error_url = reverse('error')
-            return HttpResponseRedirect(error_url)  # Return 0 as default
-        
+            return 0  # Return 0 as default
+
     def get(self, request, format=None):
-        # Re-authenticate if necessary
-        session_id = request.COOKIES.get('sessionid')
-        
-        # Fetch the total number of liked tracks to get the new random offset
-        total_tracks = self.get_total_liked_tracks(session_id)
+        # Get the total number of liked tracks
+        # error here?
+        total_tracks = self.get_total_liked_tracks(request.COOKIES.get('sessionid'))
 
         if total_tracks == 0:
-            error_url = reverse('error')
-            return HttpResponseRedirect(error_url)
+        # Return a response indicating that the user has no liked tracks
+            return Response({'message': 'You have no liked tracks.'}, status=status.HTTP_204_NO_CONTENT)
 
-        # Randomly select a new offset
+        # Generate a random offset within the range of total liked tracks
         offset = randint(0, total_tracks - 1)
-        
-        # Set the limit to ensure you're not exceeding API constraints
         limit = total_tracks
+
         if limit > 50:
             limit = 50
-        
-        endpoint = f"tracks?offset={offset}&limit={limit}"
-        
-        response = execute_spotify_api_request(session_id, endpoint)
+
+        # Construct the endpoint with the random offset
+        endpoint = f"tracks?offset={offset}&limit={limit}" #access to currently playing song on users spotify account
+        #must include token to request 
+
+#check the sessionid again
+        response = execute_spotify_api_request(request.COOKIES.get('sessionid'), endpoint)
 
         if 'error' in response or 'items' not in response:
-            return Response({}, status=status.HTTP_204_NO_CONTENT)
-        
+            return Response({}, status=status.HTTP_204_NO_CONNECTION)
+     
         items = response.get('items', [])
         songs = []
 
         for item in items:
             track = item.get('track', {})
-            album_cover = track.get('album', {}).get('images', [])[0].get('url', '')
-            if not album_cover:
+            duration = track.get('duration_ms')
+            album_cover = track.get('album', {}).get('images')
+
+            if album_cover:
+                album_cover = album_cover[0].get('url')
+            else:
+                continue  
+
+            song_id = track.get('id')
+            uri = track.get('uri')
+            preview_url = track.get('preview_url')
+
+              # If preview_url is None, skip this track and continue to the next one
+            if preview_url is None:
                 continue
 
-            preview_url = track.get('preview_url')
-            if not preview_url:
-                continue
-            
-            artist_string = ', '.join([a.get('name', '') for a in track.get('artists', [])])
+            artist_string = ""
+
+            for i, artist in enumerate(track.get('artists', [])):
+                if i > 0:
+                    artist_string += ", "
+                name = artist.get('name')
+                artist_string += name
+
             song = {
                 'title': track.get('name'),
                 'artist': artist_string,
-                'album': track.get('album', {}).get('name', ''),
+                'album': track.get('album').get('name'),
+                'duration': duration,
                 'image_url': album_cover,
-                'preview_url': preview_url
+                'preview_url': track.get('preview_url'),
+                'id': song_id,
+                'uri': uri
             }
             songs.append(song)
-        
         if not songs:
             return Response({}, status=status.HTTP_204_NO_CONTENT)
 
         random_song = random.choice(songs)
+        print(random_song)
         return Response({'random_song': random_song}, status=status.HTTP_200_OK)
