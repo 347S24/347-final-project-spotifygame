@@ -8,6 +8,10 @@ from .util import *
 import random
 from random import randint
 from django.urls import reverse
+from django.contrib.auth import authenticate, login
+from django.contrib.auth.forms import AuthenticationForm
+from .models import UserProfile
+# from .forms import UserProfileForm
 
 
 class AuthURL(APIView):
@@ -19,7 +23,7 @@ class AuthURL(APIView):
             'response_type': 'code',
             'redirect_uri': REDIRECT_URI,
             'client_id': CLIENT_ID,
-         #   'show_dialog': 'true' 
+         #   'show_dialog': 'true'
         }).prepare().url
 
         return Response({'url': url}, status=status.HTTP_200_OK)
@@ -55,7 +59,7 @@ class IsAuthenticated(APIView):
     def get(self, request, format=None):
         is_authenticated = is_spotify_authenticated(
             self.request.session.session_key)
-        
+
         return Response({'status': is_authenticated}, status=status.HTTP_200_OK)
 
 
@@ -66,7 +70,7 @@ class SkipToNextSong(APIView):
         endpoint = "tracks?limit=1"  # Fetch only one track to get the total count
         # error here?
         response = execute_spotify_api_request(session_id, endpoint)
-        
+
         # Check if the response contains the total count information
         if 'total' in response:
             return response['total']
@@ -92,14 +96,14 @@ class SkipToNextSong(APIView):
 
         # Construct the endpoint with the random offset
         endpoint = f"tracks?offset={offset}&limit={limit}" #access to currently playing song on users spotify account
-        #must include token to request 
+        #must include token to request
 
 #check the sessionid again
         response = execute_spotify_api_request(request.COOKIES.get('sessionid'), endpoint)
 
         if 'error' in response or 'items' not in response:
             return Response({}, status=status.HTTP_204_NO_CONNECTION)
-     
+
         items = response.get('items', [])
         songs = []
 
@@ -111,7 +115,7 @@ class SkipToNextSong(APIView):
             if album_cover:
                 album_cover = album_cover[0].get('url')
             else:
-                continue  
+                continue
 
             song_id = track.get('id')
             uri = track.get('uri')
@@ -146,3 +150,35 @@ class SkipToNextSong(APIView):
         random_song = random.choice(songs)
         print(random_song)
         return Response({'random_song': random_song}, status=status.HTTP_200_OK)
+
+
+# Views for logins
+def login_view(request):
+    if request.method == 'POST':
+        form = AuthenticationForm(request, data=request.POST)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            user = authenticate(username=username, password=password)
+            if user is not None:
+                login(request, user)
+                return redirect('profile')
+    else:
+        form = AuthenticationForm()
+    return render(request, 'login.html', {'form':form})
+
+def profile(request):
+    user_profile = UserProfile.objects.get(user=request.user)
+    return render(request, 'profile.html', {'user_profile': user_profile})
+
+# def create_profile(request):
+#     if request.method == 'POST':
+#         form = UserProfileForm(request.POST)
+#         if form.is_valid():
+#             user_profile = form.save(commit=False)
+#             user_profile.user = request.user
+#             user_profile.save()
+#             return redirect('profile')
+#     else:
+#         form = UserProfileForm()
+#     return render(request, 'create_profile.html', {'form': form})
