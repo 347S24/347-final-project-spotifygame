@@ -196,59 +196,27 @@ const displaySong = song => {
 }
 
 
-<<<<<<< Updated upstream
 function fetchNextSong() {
   fetch('skip-to-next-song/')
   .then(res => res.json())
   .then(data => {
     if (data.random_song) {
       displaySong(data.random_song);
-=======
-        if (response.ok) {
-            const data = await response.json();
-
-            if (data.random_song) {
-                const randomSong = data.random_song;
-
-                // Update the elements with the new song's information
-                document.getElementById('song-title').value = randomSong.title;
-                document.getElementById('song-artist').value = randomSong.artist;
-                document.getElementById('song-album').value = randomSong.album;
-                document.getElementById('song-player').src = randomSong.preview_url;
-                document.getElementById('song-preview').style.display = 'block';
-                document.getElementById('song-album').src = randomSong.image_url;
-                document.getElementById("song-album-to-guess").src = randomSong.image_url;
-                console.log("Next song loaded successfully.");
-                // Parse gamemode from URL
-                const urlParams = new URLSearchParams(window.location.search);
-                const gamemode = urlParams.get('mode');
-                if (gamemode == "timed") {
-                    let time = 30; // Set initial time
-                    const scoreText = document.getElementById("score");
-
-                    const countdownInterval = setInterval(() => {
-                        time -= 1; // Decrement time
-                        if (time > 0) {
-                            scoreText.textContent = `Time Left: ${time}`;
-                        } else {
-                            clearInterval(countdownInterval); // Stop the countdown
-                            scoreText.textContent = "Time's up!";
-                        }
-                    }, 1000); // Update every second (1000 milliseconds)
-                }
-            } else {
-                console.error("No song returned in the response.");
-            }
-        } else {
-            console.error("Failed to fetch the next song. Status:", response.status);
-            // Redirect on error status
-            window.location.href = '/error/'; // Redirect to error page
-        }
-    } catch (error) {
-        console.error("An error occurred:", error);
-        // Redirect on fetch error
-        window.location.href = '/error/'; // Redirect to error page
->>>>>>> Stashed changes
+      const urlParams = new URLSearchParams(window.location.search);
+      const gamemode = urlParams.get('mode');
+      if (gamemode == "timed") {
+        let time = 30; // Set initial time
+        const scoreText = document.getElementById("score");
+        const countdownInterval = setInterval(() => {
+          time -= 1; // Decrement time
+          if (time > 0) {
+            scoreText.textContent = `Time Left: ${time}`;
+          } else {
+            clearInterval(countdownInterval); // Stop the countdown
+            scoreText.textContent = "Time's up!";
+          }
+        }, 1000); // Update every second (1000 milliseconds)
+      }
     }
   })
   .catch(error => {
