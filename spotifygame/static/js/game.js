@@ -28,8 +28,37 @@ class Game {
             case "bo10":
                 this.correctGuesses = guessCorrect ? this.correctGuesses + 1 : this.correctGuesses;
                 this.guessesLeft -= 1;
+
+                if (this.guessesLeft === 0) {
+                    this.endGame();
+                } else {
+                    // Only fetch the next song if guesses are not zero
+                    fetchNextSong();
+                }
+
                 break;
         }
+    }
+
+    endGame() {
+        let guessDiv = document.getElementById("guess-div");
+
+        let gameOverDiv = document.createElement("div");
+        gameOverDiv.innerText = "Game Over!";
+        guessDiv.appendChild(gameOverDiv);
+
+        // Disable buttons and input fields
+        document.getElementById("guess").disabled = true;
+        document.getElementById("submit-button").disabled = true;
+        document.getElementById("hint-button").disabled = true;
+        document.getElementById("skip-button").disabled = true;
+
+        // Optionally, provide a restart button
+        let restartButton = document.createElement("button");
+        restartButton.className = "green-button";
+        restartButton.textContent = "Restart";
+        restartButton.onclick = () => location.reload();
+        guessDiv.appendChild(restartButton);
     }
 
     submitGuess = () => {
@@ -211,12 +240,11 @@ function skipSong() {
         hintSection.remove(); // Clear all hints when skipping
     }
 
-
-    fetchNextSong();
+   // fetchNextSong();
 }
 
 // To load the very first song (hopefully doesnt cause issues)
-skipSong()
+fetchNextSong()
 
 // Attempt to reset the game page without having the window reload
 function resetGamePage(game) {
@@ -328,7 +356,7 @@ function resetGamePage(game) {
 
     game.updateScoreDisplay(); // for some reason necessary for score display
 
-    skipSong() // this to load the very first song (hopefully doesn't cause issues)
+    fetchNextSong() // this to load the very first song (hopefully doesn't cause issues)
 }
 
 
