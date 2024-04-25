@@ -1,3 +1,8 @@
+// Global flag for game over
+let isGameOver = false;
+let countdownInterval = null
+
+
 function nextButton() {
     location.reload();
 }
@@ -8,23 +13,27 @@ function normalizeString(str) {
 }
 
 function endGame() {
+    isGameOver = true;
+
     let guessDiv = document.getElementById("guess-div");
+    clearGuessDiv(guessDiv);
 
     let gameOverDiv = document.createElement("div");
+    gameOverDiv.id = "game-over-div";
     gameOverDiv.innerText = "Game Over!";
+    
     guessDiv.appendChild(gameOverDiv);
 
-    // Disable buttons and input fields
-    document.getElementById("guess").style.display = "none";
-    document.getElementById("submit-button").style.display = "none";
-    document.getElementById("hint-button").style.display = "none";
-    document.getElementById("skip-button").style.display = "none";
+   
 
     // Optionally, provide a restart button
     let restartButton = document.createElement("button");
     restartButton.className = "green-button";
     restartButton.textContent = "Restart";
-    restartButton.onclick = () => location.reload();
+    restartButton.onclick = () => {
+        isGameOver = false; 
+        location.reload(); 
+    };
     guessDiv.appendChild(restartButton);
 }
 
@@ -39,6 +48,9 @@ class Game {
     }
 
     adjustScore(guessCorrect) {
+        if (isGameOver) {
+            return; // Do nothing if the game is over
+        }
         switch (this.mode) {
             case "streak":
                 this.streak = guessCorrect ? this.streak + 1 : 0;
@@ -49,14 +61,21 @@ class Game {
             case "bo10":
                 this.correctGuesses = guessCorrect ? this.correctGuesses + 1 : this.correctGuesses;
                 this.guessesLeft -= 1;
+
+                console.log("Guesses Left:", this.guessesLeft);
+
                 if (this.guessesLeft === 0) {
                     endGame();
+                    break;
                 } 
                 break;
         }
     }
 
     submitGuess = () => {
+        if (isGameOver) {
+            return; // Do nothing if the game is over
+        }
         let guess = document.getElementById("guess").value;
         let songTitle = document.getElementById("song-title").value;
 
@@ -67,12 +86,16 @@ class Game {
         } else {
             displayIncorrect();
         }
+
         this.adjustScore(guessCorrect);
         this.updateScoreDisplay();
         fetchNextSong();
     }
 
     updateScoreDisplay() {
+        if (isGameOver) {
+            return; // Do nothing if the game is over
+        }
         let scoreText = document.getElementById("score");
         let newText = "";
         switch (this.mode) {
@@ -106,6 +129,9 @@ const displayIncorrect = () => {
 
 
 const displayCorrect = () => {
+    if (isGameOver) {
+        return; // Do nothing if the game is over
+    }
     let guessDiv = document.getElementById("guess-div");
     clearGuessDiv(guessDiv);
 
@@ -137,6 +163,9 @@ const displayCorrect = () => {
 
 
 function hintButton() {
+    if (isGameOver) {
+        return; // Do nothing if the game is over
+    }
     var hintButton = document.getElementById("hint-button");
 
     // no more hints
@@ -186,6 +215,9 @@ function logoutFromSpotify() {
 
 
 const displaySong = song => {
+    if (isGameOver) {
+        return; // Do nothing if the game is over
+    }
   document.getElementById('song-title').value = song.title;
   document.getElementById('song-artist').value = song.artist;
   document.getElementById('song-album').value = song.album;
@@ -196,7 +228,15 @@ const displaySong = song => {
 }
 
 
+
 function fetchNextSong() {
+    if (isGameOver) {
+        return; // Do nothing if the game is over
+    }
+    if (countdownInterval) {
+        clearInterval(countdownInterval);
+        countdownInterval = null; // Reset the interval reference
+    }
   fetch('skip-to-next-song/')
   .then(res => res.json())
   .then(data => {
@@ -204,18 +244,28 @@ function fetchNextSong() {
       displaySong(data.random_song);
       const urlParams = new URLSearchParams(window.location.search);
       const gamemode = urlParams.get('mode');
-      if (gamemode == "timed") {
+     
+      if (gamemode === "timed") {
+        // Start a new countdown timer
         let time = 30; // Set initial time
         const scoreText = document.getElementById("score");
-        const countdownInterval = setInterval(() => {
-          time -= 1; // Decrement time
-          if (time > 0) {
-            scoreText.textContent = `Time Left: ${time}`;
-          } else {
-            clearInterval(countdownInterval); // Stop the countdown
-            scoreText.textContent = "Time's up!";
-            endGame();
-          }
+
+        countdownInterval = setInterval(() => {
+            if (isGameOver) {
+                clearInterval(countdownInterval); // Stop the countdown if the game is over
+                countdownInterval = null; // Reset the interval reference
+                return;
+            }
+
+            time -= 1; // Decrement time
+            if (time > 0) {
+                scoreText.textContent = `Time Left: ${time}`;
+            } else {
+                clearInterval(countdownInterval); // Stop the countdown
+                countdownInterval = null; // Reset the interval reference
+                scoreText.textContent = "Time's up!";
+                endGame();
+            }
         }, 1000); // Update every second (1000 milliseconds)
       }
     }
@@ -228,6 +278,10 @@ function fetchNextSong() {
 }
 
 function skipSong() {
+    if (isGameOver) {
+        return; // Do nothing if the game is over
+    }
+
     // This hint stuff makes sure that the hints dont continue showing when the skip song button is pressed
     const hintButton = document.getElementById("hint-button");
     if (hintButton) {
@@ -243,8 +297,12 @@ function skipSong() {
 // To load the very first song (hopefully doesnt cause issues)
 fetchNextSong()
 
+
 // Attempt to reset the game page without having the window reload
 function resetGamePage(game) {
+    if (isGameOver) {
+        return; // Do nothing if the game is over
+    }
 
     // Tried to fix the hints here but im not sure if this is doing anything good
     let hintSection = document.getElementById("hint-section");
@@ -370,12 +428,14 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // I had issues with attaching the event listeners again after reloading the game so i just made them to be like this
     document.getElementById('guess-div').addEventListener("click", function (event) {
+        if (isGameOver) {
+        return; // Do nothing if the game is over
+    }
         const targetId = event.target.id;
 
         switch (targetId) {
             case "submit-button":
                 game.submitGuess();
-                game.updateScoreDisplay();
                 break;
             case "hint-button":
                 hintButton();
@@ -385,7 +445,6 @@ document.addEventListener('DOMContentLoaded', function () {
                 break;
             case "skip-button":
                 game.submitGuess(); 
-                game.updateScoreDisplay(); 
                 skipSong();
                 break;
             default:

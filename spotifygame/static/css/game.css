@@ -31,7 +31,7 @@
   font-family: Impact; 
 }
 
-#correct-div {
+#correct-div, #game-over-div {
   color: hsl(137, 65%, 56%);
   font-family: Impact; 
   font-weight: 500;
