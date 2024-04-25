@@ -28,14 +28,9 @@ class Game {
             case "bo10":
                 this.correctGuesses = guessCorrect ? this.correctGuesses + 1 : this.correctGuesses;
                 this.guessesLeft -= 1;
-
                 if (this.guessesLeft === 0) {
                     this.endGame();
-                } else {
-                    // Only fetch the next song if guesses are not zero
-                    fetchNextSong();
-                }
-
+                } 
                 break;
         }
     }
@@ -62,7 +57,6 @@ class Game {
     }
 
     submitGuess = () => {
-        console.log(this);
         let guess = document.getElementById("guess").value;
         let songTitle = document.getElementById("song-title").value;
 
@@ -73,10 +67,10 @@ class Game {
         } else {
             displayIncorrect();
         }
-
         this.adjustScore(guessCorrect);
+        this.updateScoreDisplay();
+        fetchNextSong();
     }
-
 
     updateScoreDisplay() {
         let scoreText = document.getElementById("score");
@@ -191,44 +185,33 @@ function logoutFromSpotify() {
 }
 
 
+const displaySong = song => {
+  document.getElementById('song-title').value = song.title;
+  document.getElementById('song-artist').value = song.artist;
+  document.getElementById('song-album').value = song.album;
+  document.getElementById('song-player').src = song.preview_url;
+  document.getElementById('song-preview').style.display = 'block';
+  document.getElementById('song-album').src = song.image_url;
+  document.getElementById("song-album-to-guess").src = song.image_url;
+}
 
-async function fetchNextSong() {
-    try {
-        // Send a GET request to the SkipToNextSong endpoint
-        const response = await fetch('skip-to-next-song/'); 
 
-        if (response.ok) {
-            const data = await response.json();
-
-            if (data.random_song) {
-                const randomSong = data.random_song;
-
-                // Update the elements with the new song's information
-                document.getElementById('song-title').value = randomSong.title;
-                document.getElementById('song-artist').value = randomSong.artist;
-                document.getElementById('song-album').value = randomSong.album;
-                document.getElementById('song-player').src = randomSong.preview_url;
-                document.getElementById('song-preview').style.display = 'block';
-                document.getElementById('song-album').src = randomSong.image_url;
-                document.getElementById("song-album-to-guess").src = randomSong.image_url;
-                console.log("Next song loaded successfully.");
-            } else {
-                console.error("No song returned in the response.");
-            }
-        } else {
-            console.error("Failed to fetch the next song. Status:", response.status);
-            // Redirect on error status
-            window.location.href = '/error/'; // Redirect to error page
-        }
-    } catch (error) {
-        console.error("An error occurred:", error);
-        // Redirect on fetch error
-        window.location.href = '/error/'; // Redirect to error page
+function fetchNextSong() {
+  fetch('skip-to-next-song/')
+  .then(res => res.json())
+  .then(data => {
+    if (data.random_song) {
+      displaySong(data.random_song);
     }
+  })
+  .catch(error => {
+    console.error("An error occurred:", error);
+    // Redirect on fetch error
+    window.location.href = '/error/'; // Redirect to error page
+  })
 }
 
 function skipSong() {
-
     // This hint stuff makes sure that the hints dont continue showing when the skip song button is pressed
     const hintButton = document.getElementById("hint-button");
     if (hintButton) {
@@ -239,8 +222,6 @@ function skipSong() {
     if (hintSection) {
         hintSection.remove(); // Clear all hints when skipping
     }
-
-   // fetchNextSong();
 }
 
 // To load the very first song (hopefully doesnt cause issues)
