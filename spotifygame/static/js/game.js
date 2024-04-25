@@ -7,6 +7,27 @@ function normalizeString(str) {
     return str.toLowerCase().trim();
 }
 
+function endGame() {
+    let guessDiv = document.getElementById("guess-div");
+
+    let gameOverDiv = document.createElement("div");
+    gameOverDiv.innerText = "Game Over!";
+    guessDiv.appendChild(gameOverDiv);
+
+    // Disable buttons and input fields
+    document.getElementById("guess").style.display = "none";
+    document.getElementById("submit-button").style.display = "none";
+    document.getElementById("hint-button").style.display = "none";
+    document.getElementById("skip-button").style.display = "none";
+
+    // Optionally, provide a restart button
+    let restartButton = document.createElement("button");
+    restartButton.className = "green-button";
+    restartButton.textContent = "Restart";
+    restartButton.onclick = () => location.reload();
+    guessDiv.appendChild(restartButton);
+}
+
 class Game {
     constructor(mode) {
         this.mode = mode;
@@ -29,31 +50,10 @@ class Game {
                 this.correctGuesses = guessCorrect ? this.correctGuesses + 1 : this.correctGuesses;
                 this.guessesLeft -= 1;
                 if (this.guessesLeft === 0) {
-                    this.endGame();
+                    endGame();
                 } 
                 break;
         }
-    }
-
-    endGame() {
-        let guessDiv = document.getElementById("guess-div");
-
-        let gameOverDiv = document.createElement("div");
-        gameOverDiv.innerText = "Game Over!";
-        guessDiv.appendChild(gameOverDiv);
-
-        // Disable buttons and input fields
-        document.getElementById("guess").disabled = true;
-        document.getElementById("submit-button").disabled = true;
-        document.getElementById("hint-button").disabled = true;
-        document.getElementById("skip-button").disabled = true;
-
-        // Optionally, provide a restart button
-        let restartButton = document.createElement("button");
-        restartButton.className = "green-button";
-        restartButton.textContent = "Restart";
-        restartButton.onclick = () => location.reload();
-        guessDiv.appendChild(restartButton);
     }
 
     submitGuess = () => {
@@ -214,6 +214,7 @@ function fetchNextSong() {
           } else {
             clearInterval(countdownInterval); // Stop the countdown
             scoreText.textContent = "Time's up!";
+            endGame();
           }
         }, 1000); // Update every second (1000 milliseconds)
       }
