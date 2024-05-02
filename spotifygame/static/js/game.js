@@ -164,20 +164,10 @@ function hintButton() {
         return;
     }
     var hintButton = document.getElementById("hint-button");
+    var hintDiv = document.getElementById("hint-section");
 
     // no more hints
-    if (document.getElementById("second-hint") != null) {
-        hintButton.innerText = "You only get two hints!";
-    } else if (document.getElementById("first-hint") != null) {
-        var hintDiv = document.getElementById("hint-section");
-
-        var secondHint = document.createElement("div");
-        secondHint.id = "second-hint";
-        var songAlbum = "The album is: " + document.getElementById("song-album").value;
-        secondHint.textContent = songAlbum;
-
-        hintDiv.appendChild(secondHint);
-    } else {
+    if (hintDiv == null) {
         var hintDiv = document.createElement("div");
         hintDiv.id = "hint-section";
 
@@ -189,8 +179,35 @@ function hintButton() {
         hintButton.innerText = "Get Another Hint";
         hintDiv.appendChild(firstHint);
         hintButton.parentNode.appendChild(hintDiv);
-    }
+    } else if (hintDiv.childElementCount == 1) {
+        var secondHint = document.createElement("div");
+        secondHint.id = "second-hint";
+        var songAlbum = "The album is: " + document.getElementById("song-album").value;
+        secondHint.textContent = songAlbum;
 
+        hintDiv.appendChild(secondHint);
+    } else if (hintDiv.childElementCount == 2) {
+        var thirdHint = document.createElement("div");
+        thirdHint.id = "third-hint";
+        var songLetter = "The song starts with the letter " + document.getElementById("song-title").value[0];
+        thirdHint.textContent = songLetter;
+        
+        hintDiv.appendChild(thirdHint);
+    } else if (hintDiv.childElementCount == 3) {
+        var fourthint = document.createElement("div");
+        fourthint.id = "fourth-hint";
+        var songLength = (document.getElementById("song-title").value.split(" ")).length;
+        if (songLength == 1) {
+            var numWords = "The song title is " + songLength + " word long";
+        } else {
+            var numWords = "The song title is " + songLength + " words long";
+        }
+        fourthint.textContent = numWords;
+        
+        hintDiv.appendChild(fourthint);
+    } else if (hintDiv.childElementCount == 4) {
+        hintButton.innerText = "You only get four hints!";
+    }
 }
 
 
