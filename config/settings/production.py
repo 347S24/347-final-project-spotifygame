@@ -9,7 +9,7 @@ os.environ["SPOTIFY_REDIRECT_URL"] = "https://beatbuster.me"
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
 ALLOWED_HOSTS = env.list(
-    "DJANGO_ALLOWED_HOSTS", default=["everycheese.com"]
+    "DJANGO_ALLOWED_HOSTS", default=["beatbuster.me"]
 )
 
 # DATABASES
@@ -85,7 +85,7 @@ TEMPLATES[-1]["OPTIONS"]["loaders"] = [  # type: ignore[index] # noqa: F405
 # https://docs.djangoproject.com/en/dev/ref/settings/#default-from-email
 DEFAULT_FROM_EMAIL = env(
     "DJANGO_DEFAULT_FROM_EMAIL",
-    default="SpotifyGame <noreply@everycheese.com>",
+    default="SpotifyGame <noreply@beatbuster.com>",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#server-email
 SERVER_EMAIL = env(

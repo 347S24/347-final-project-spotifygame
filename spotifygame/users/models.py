@@ -14,9 +14,23 @@ class User(AbstractUser):
 
     points = models.IntegerField(default=0)
 
+    highest_streak = models.IntegerField(default=0)
+    highest_score = models.IntegerField(default=0)
+
+
     def get_absolute_url(self):
         return reverse(
             "users:detail", kwargs={"username": self.username}
         )
+
+    def update_highest_streak(self, new_streak):
+        if new_streak > self.highest_streak:
+            self.highest_streak = new_streak
+            self.save()
+
+    def update_highest_score(self, new_score):
+        if new_score > self.highest_score:
+            self.highest_score = new_score
+            self.save()
 
 

@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
+{% block extra_css %}
+{% load static %}
+<link href="{% static 'css/home.css' %}" rel="stylesheet">
+<link href="{% static 'css/accountbase.css' %}" rel="stylesheet">
+{% endblock %}
+
 {% block title %}{{ user.username }}{% endblock %}
 
 {% block content %}

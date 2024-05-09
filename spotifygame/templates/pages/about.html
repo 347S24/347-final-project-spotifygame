@@ -1,1 +1,36 @@
 {% extends "base.html" %}
+
+{% block extra_css %}
+{% load static %}
+<link href="{% static 'css/home.css' %}" rel="stylesheet">
+<link href="{% static 'css/gameselect.css' %}" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+    <div class="background">
+        <div class="gradients">
+            <h1>Beat Busters</h1>
+            <p style="color: white;">Beat Busters is a game that:</p>
+            <ul style="color: white;">
+                <li>Tests how well you know your liked songs on Spotify</li>
+                <li>Provides a fun way to engage with your music collection</li>
+            </ul>
+
+            <p style="color: white;">Simply login with your Spotify account and play!</p>
+            <p style="color: white;">Developers:</p>
+            <ul style="color: white;">
+                <li>Megan Hinkel</li>
+                <li>Masha Share</li>
+                <li>Adam Vinch</li>
+                <li>Rebecca Anderson</li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block extra_javascript %}
+{% load static %}
+<script src="{% static 'js/gameselect.js' %}"></script>
+{% endblock %}
+

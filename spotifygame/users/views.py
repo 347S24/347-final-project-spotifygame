@@ -7,6 +7,8 @@ from django.views.generic import (
     UpdateView,
 )
 
+from django.http import JsonResponse
+
 User = get_user_model()
 
 
@@ -60,3 +62,18 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 
 user_redirect_view = UserRedirectView.as_view()
+
+def check_authentication(request):
+    isAuthenticated = request.user.is_authenticated
+    print("Authenticated?", isAuthenticated)
+    return JsonResponse({'isAuthenticated': isAuthenticated})
+
+def update_streak(request):
+    if request.method == 'POST' and request.user.is_authenticated:
+        new_streak = request.POST.get('streak')
+        user = request.user
+        if new_streak > user.highest_streak:
+            user.highest_streak = new_streak
+            user.save()
+            return JsonResponse({'message': 'Highest streak updated successfully.'})
+    return JsonResponse({'message': 'Error updating highest streak.'}, status=400)
